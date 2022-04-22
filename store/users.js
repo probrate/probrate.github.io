@@ -1,38 +1,36 @@
 const api = require('../util/api')
 
 export const state = () => ({
-  username: null,
+  user: null,
   messageLogs: [],
-  token: null,
-  voted: null
 })
 
 export const mutations = {
   pushMessage: (state, message) => {
     state.messageLogs.push(message);
   },
+
   popMessage: (state) => {
     state.messageLogs.shift();
   },
 
-  fetchUserLocal: (state) => {
-    if (state.username && state.token) {
+  fetchUser: (state) => {
+    if (state.user) {
       return;
     }
-    let localData = localStorage.getItem('PROBRATE_LOCAL_USERNAME');
+    let localData = localStorage.getItem('PROBRATE_LOCAL_USER'); // {username, token}
     if (localData) {
       state.username = localData.username;
       state.token = localData.token;
     }
   },
-
-  setVotedList: (state, votedList) => {
-    state.voted = votedList;
-  }
 }
 
-const manageMessage = async (context, message) => {
-  context.commit('pushMessage', message);
+const manageMessage = async (context, pack) => {
+  context.commit('pushMessage', {
+    success: pack.success,
+    message: pack.message
+  });
   setTimeout(() => {
     context.commit('popMessage')
   }, 2000);
@@ -52,10 +50,20 @@ export const actions = {
   },
 
   login: async (context, payload) => {
-
-  },
-
-  getVotedList: async (context, payload) => {
-    
+    try {
+      let data = await api("POST", "/auth/login", payload);
+      manageMessage(context, data);
+      context.commit('setUser', {
+        user: data.user,
+        token: data.token
+      })
+    } catch (err) {
+      manageMessage(context, {
+        success: false,
+        message: err
+      })
+    }
   }
+
+
 }
