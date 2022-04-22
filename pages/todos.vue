@@ -6,6 +6,9 @@
   <div>
     {{todos}}
   </div>
+  <div>
+    {{msgLogs}}
+  </div>
 </div>
 </template>
 
@@ -15,16 +18,18 @@
 export default {
   computed: {
     todos () {
+      return this.$store.state.users.voted;
+    },
+    msgLogs () {
       return this.$store.state.users.messageLogs;
     }
   },
   methods: {
     proc() {
-      console.log(this.$store.commit('users/fetchUserLocal'));
-      // this.$store.dispatch('todos/register',{
-      //   username: "futa",
-      //   password: "nari"
-      // });
+      // console.log(this.$store.commit('users/getVote'));
+      this.$store.dispatch('users/getVotedList',{
+        username: "pol"
+      });
     }
   }
 }
