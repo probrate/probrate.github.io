@@ -3,11 +3,10 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
-
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - probrate',
-    title: 'probrate',
+    titleTemplate: '%s - moov-core',
+    title: 'moov-core',
     htmlAttrs: {
       lang: 'en'
     },
@@ -17,9 +16,6 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -72,11 +68,13 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    
   },
 
+  link: [
+    { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+  ],
+
   router: {
-    target: 'static',
     base: '/site/'
   }
 }
