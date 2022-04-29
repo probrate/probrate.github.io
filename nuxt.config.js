@@ -76,6 +76,6 @@ export default {
   },
 
   router: {
-    base: '/'
+    base: '/probrate.github.io/'
   }
 }
