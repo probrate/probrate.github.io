@@ -74,12 +74,8 @@ export default {
     { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
   ],  
 
-  ...(process.env.DEPLOY_ENV === 'GH_PAGES'
-    ? {
-        router: {
-          target: 'static',
-          base: '/site/'
-        }
-      }
-    : {})
+  router: {
+    target: 'static',
+    base: '/site/'
+  }
 }
