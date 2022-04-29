@@ -77,6 +77,6 @@ export default {
 
   router: {
     target: 'static',
-    base: '/'
+    base: ''
   }
 }
