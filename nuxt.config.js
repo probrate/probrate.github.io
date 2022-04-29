@@ -5,8 +5,8 @@ export default {
   ssr: false,
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - moov-core',
-    title: 'moov-core',
+    titleTemplate: '%s - probrate',
+    title: 'probrate',
     htmlAttrs: {
       lang: 'en'
     },
@@ -72,12 +72,13 @@ export default {
 
   link: [
     { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-  ],
+  ],  
 
   ...(process.env.DEPLOY_ENV === 'GH_PAGES'
     ? {
         router: {
-          base: '/'
+          target: 'static',
+          base: '/site/'
         }
       }
     : {})
