@@ -87,5 +87,18 @@ export const actions = {
     }
   },
 
-
+  verify: async (context, payload) => {
+    let token = localStorage.getItem('PROBRATE_LOCAL_USER');
+    if (token) {
+      manageMessage(context, {message: "Verifying your account..."});
+      payload.token = token;
+      let data = await api("POST", "/users/updateProfile", payload);
+      manageMessage(context, data);
+      if (data.success) {
+        context.commit('setUser', data.user);
+      }
+    } else {
+      manageMessage(context, {message: "Wrong token. Please signout and try again."})
+    }
+  }
 }

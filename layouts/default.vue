@@ -28,8 +28,11 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
       <v-spacer />
+      <v-btn icon @click="$vuetify.theme.dark=!$vuetify.theme.dark">
+          <v-icon>mdi-theme-light-dark</v-icon>
+        </v-btn>
       <div v-if="user" style="display: flex">
-        <username-display :username="user.username" :rating="user.rating">
+        <username-display :username="user.username" :rating="user.rating" :greeting="'Hello,'">
         </username-display>
         <v-btn icon @click.stop="logout">
           <v-icon>mdi-exit-run</v-icon>
@@ -66,8 +69,6 @@
           </v-tab-item>
         </v-tabs-items>
       </v-container>
-      <login-register-section>
-      </login-register-section>
     </v-navigation-drawer>
     <v-snackbar :value="messages.length > 0" absolute bottom outlined>
       <div
@@ -112,8 +113,8 @@ export default {
         },
         {
           icon: "mdi-chart-bubble",
-          title: "Inspire",
-          to: "/inspire",
+          title: "Profile",
+          to: "/profile",
         },
       ],
       miniVariant: false,
@@ -140,6 +141,7 @@ export default {
   mounted() {
     if (!this.user)
       this.$store.dispatch('users/fetchUser');
+    this.$vuetify.theme.dark = true;
   },
   watch: {
     user(xx) {

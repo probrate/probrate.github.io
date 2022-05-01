@@ -30,7 +30,7 @@ export default {
       username: '',
       password: '',
       email: '',
-      value: 0
+      value: 1
     }
   },
   methods: {

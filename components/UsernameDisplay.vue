@@ -1,7 +1,5 @@
 <template>
-  <v-container
-    align="center"
-    justify="center"
+  <v-container  
     style="display: flex"
     class="text-body-1"
   >
@@ -28,6 +26,7 @@ export default {
   props: {
     username: String,
     rating: Number,
+    greeting: String
   },
   computed: {
     displayColor() {
@@ -50,7 +49,6 @@ export default {
   },
   data() {
     return {
-      greeting: "Hello, ",
       color: [
         {
           lb: 0,
