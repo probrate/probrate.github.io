@@ -137,8 +137,9 @@ export default {
       this.$store.dispatch('users/logout');
     }
   },
-  created() {
-    this.$store.dispatch('users/fetchUser');
+  mounted() {
+    if (!this.user)
+      this.$store.dispatch('users/fetchUser');
   },
   watch: {
     user(xx) {
