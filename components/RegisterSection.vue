@@ -38,7 +38,8 @@ export default {
     reg() {
       this.$store.dispatch('users/register', {
         username: this.username,
-        password: this.password
+        password: this.password,
+        email: this.email
       });
     }
   }
