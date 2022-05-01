@@ -1,8 +1,11 @@
 const api = require('../util/api')
 
+export const namespaced = true;
+
 export const state = () => ({
   user: null,
   messageLogs: [],
+  loadingUser: false
 })
 
 export const mutations = {
@@ -13,27 +16,23 @@ export const mutations = {
   popMessage: (state) => {
     state.messageLogs.shift();
   },
-
-  fetchUser: (state) => {
-    if (state.user) {
-      return;
-    }
-    let localData = localStorage.getItem('PROBRATE_LOCAL_USER'); // {username, token}
-    if (localData) {
-      state.username = localData.username;
-      state.token = localData.token;
-    }
+  
+  setMessage: (state, messageLgs) => {
+    state.messageLogs = messageLgs;
   },
+
+  setUser: (state, user) => {
+    state.user = user;
+    console.log("User set", user);
+  }
 }
 
 const manageMessage = async (context, pack) => {
-  context.commit('pushMessage', {
-    success: pack.success,
-    message: pack.message
-  });
+  context.commit('pushMessage', pack.message);
+
   setTimeout(() => {
-    context.commit('popMessage')
-  }, 2000);
+    context.commit('popMessage');
+  }, 1500)
 }
 
 export const actions = {
@@ -53,17 +52,40 @@ export const actions = {
     try {
       let data = await api("POST", "/auth/login", payload);
       manageMessage(context, data);
-      context.commit('setUser', {
-        user: data.user,
-        token: data.token
-      })
+      if (data.success) {
+        console.log(data);
+        context.commit('setUser',data.user);
+        localStorage.setItem('PROBRATE_LOCAL_USER', data.token);
+      }
     } catch (err) {
       manageMessage(context, {
         success: false,
         message: err
       })
     }
-  }
+  },
+
+  logout: async (context) => {
+    context.commit('setUser', null);
+    localStorage.removeItem('PROBRATE_LOCAL_USER');
+    manageMessage(context, {message: 'Logged out'});
+  },
+
+  fetchUser: async (context) => {
+    if (context.state.user) {
+      return;
+    }
+    let token = localStorage.getItem('PROBRATE_LOCAL_USER'); // {username, token}
+    if (token) {
+      let data = await api("POST", "/users/fetch", {token});
+      if (data.success) {
+        context.commit('setUser', data.user);
+      } else {
+        console.log('fetch failed');
+      }
+      manageMessage(context, data);
+    }
+  },
 
 
 }

@@ -3,9 +3,8 @@
   <v-btn @click="proc">
     CLICK ME
   </v-btn>
-  <div>
-    {{todos}}
-  </div>
+  <LoginSection>
+  </LoginSection>
   <div>
     {{msgLogs}}
   </div>
@@ -17,9 +16,6 @@
 
 export default {
   computed: {
-    todos () {
-      return this.$store.state.users.voted;
-    },
     msgLogs () {
       return this.$store.state.users.messageLogs;
     }
@@ -27,9 +23,10 @@ export default {
   methods: {
     proc() {
       // console.log(this.$store.commit('users/getVote'));
-      this.$store.dispatch('users/getVotedList',{
-        username: "pol"
-      });
+      // this.$store.dispatch('users/login',{
+      //   username: "pol",
+      //   password: "pol"
+      // });
     }
   }
 }
